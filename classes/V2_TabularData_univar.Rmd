@@ -39,7 +39,7 @@ For example, when you visit the [website](https://nces.ed.gov/ccd/) of the Commo
 
 
 ```{r getData, eval=FALSE}
-link='https://github.com/EvansDataScience/data/raw/master/eduwa.rda'
+link='https://github.com/EvansDataScience/VisualAnalytics_2_tabularData/raw/master/data/eduwa.rda'
 
 #getting the data TABLE from the file in the cloud:
 load(file=url(link))
