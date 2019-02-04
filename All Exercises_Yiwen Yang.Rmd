@@ -1,0 +1,687 @@
+```{r}
+link='https://github.com/EvansDataScience/VisualAnalytics_2_tabularData/raw/master/data/eduwa.rda'
+load(file=url(link))
+```
+
+```{r}
+dim(eduwa)
+```
+
+```{r}
+names(eduwa)
+```
+
+```{r}
+str(eduwa,width = 70,strict.width='cut')
+```
+
+```{r}
+head(eduwa$LocaleType,50)
+```
+
+```{r}
+table(eduwa$LocaleType,exclude = 'nothing')
+```
+
+```{r}
+absoluteT=table(eduwa$LocaleType,exclude = 'nothing')
+prop.table(absoluteT)
+```
+
+```{r}
+ToPlot=prop.table(absoluteT)
+pie(ToPlot)
+```
+
+```{r}
+names(ToPlot)
+```
+
+```{r}
+names(ToPlot)[5]='Unknown'
+```
+
+```{r}
+titleText='Where are Public Schools located in WA in 2019?'
+sourceText='Source: US Department of Education'
+
+pie(ToPlot,
+    main=titleText,
+    sub=sourceText)
+```
+
+```{r}
+titleText2='WA still has schools locations unknown \n (info from 2018)'
+
+pie(ToPlot,
+    main=titleText2,
+    sub=sourceText)
+```
+
+```{r}
+titleText3='WA needs to fully categorize school locations\n(info from 2018)'
+
+pie(ToPlot,
+    main=titleText3,
+    sub=sourceText)
+```
+
+```{r}
+ToPlot*100
+```
+
+```{r}
+ToPlot=ToPlot*100 
+paletteHere=rainbow(length(ToPlot))
+pie(x=ToPlot,
+    col = paletteHere, 
+    labels = ToPlot,
+    main=titleText,
+    sub=sourceText)
+```
+
+```{r}
+paste0(round(ToPlot,2),'%')
+```
+
+```{r}
+plotLabels=paste0(round(ToPlot,2),'%')
+pie(x=ToPlot,
+    col = paletteHere, 
+    labels = plotLabels,
+    main=titleText,
+    sub=sourceText)
+```
+
+```{r}
+pie(x=ToPlot,
+    col = paletteHere, 
+    labels = plotLabels,
+    main=titleText,
+    sub=sourceText)
+
+legend(x="right",
+       legend=names(ToPlot), 
+       fill = paletteHere) #symbols' colors
+```
+
+```{r}
+pie(x=ToPlot,#table
+    col = paletteHere, 
+    labels = plotLabels,
+    main=titleText,
+    sub=sourceText)
+#legend
+legend(x="right", #where
+       legend=names(ToPlot), #text
+       fill = paletteHere,
+       bty = 'n', # no box
+       cex = 0.5  # shrink
+       ) #symbols' colors
+```
+
+```{r}
+barplot(ToPlot,
+         col = paletteHere,
+         main=titleText,
+         sub=sourceText)
+```
+
+```{r}
+paletteHereNew=c('gray') # just one color
+# plotting
+barplot(ToPlot,
+     col = paletteHereNew,
+     border=NA, #no border
+     main=titleText,
+     sub=sourceText,
+     ylim=c(0,50),
+     ylab = '(in %)' # show unit
+     )
+```
+
+```{r}
+# plotting
+location=barplot(ToPlot,
+     col = paletteHereNew,
+     border=NA,
+     main=titleText,
+     sub=sourceText,
+     ylim=c(0,50),
+     ylab = '(in %)')
+
+#annotating
+text(x=location,y=ToPlot,labels=plotLabels,
+     pos = 1,# if pos=3, text will be on top of bar
+     cex = 0.8) 
+```
+
+```{r}
+# plotting
+location=barplot(ToPlot,
+     col = paletteHereNew,
+     border=NA,
+     main=titleText,
+     sub=sourceText,
+     ylim=c(0,50),
+     ylab = '(in %)',
+     horiz = T) # ORIENTATION
+
+#annotating
+text(x=location,y=ToPlot,labels=plotLabels,
+     pos = 1) # this is the position of the label
+```
+
+```{r}
+location=barplot(ToPlot,
+         col = paletteHereNew,
+         border=NA,
+         main=titleText,
+         sub=sourceText,
+         xlim=c(0,50), #change to xlim
+         xlab = '(in %)', #change to xlab
+         horiz = T)
+
+#annotating
+text(x=ToPlot,y=location, #change of x and y
+     labels=plotLabels,
+     pos = 4)  # change position of the label
+```
+
+```{r}
+location=barplot(ToPlot,
+         col = paletteHereNew,
+         border=NA,
+         main=titleText,
+         sub=sourceText,
+         cex.names = 0.7, #shrink category names
+         xlim=c(0,50), 
+         xlab = '(in %)', 
+         horiz = T)
+
+#annotating
+text(x=ToPlot,y=location,labels=plotLabels,pos = 4)  
+```
+
+```{r}
+location=barplot(ToPlot,
+         col = paletteHereNew,
+         border=NA,
+         main=titleText, # no sub here!
+         xlim=c(0,50), 
+         cex.names = 0.5,
+         xlab = '(in %)', 
+         horiz = T)
+
+# annotating
+text(x=ToPlot,y=location,labels=plotLabels,pos = 4)  
+
+# subtitle
+title(sub=sourceText, 
+      adj=0,#adj=1 aligns to rigth.
+      cex.sub=0.7) #shrinking text
+```
+
+```{r}
+par(mgp=c(0.5,0.5,0)) 
+#
+
+location=barplot(ToPlot,
+         col = paletteHereNew,
+         border=NA,
+         main=titleText,
+         xlim=c(0,50), 
+         xlab = '(in %)',
+         cex.names = 0.6,
+         cex.lab=0.6, # shrinking label text
+         horiz = T) 
+
+text(x=ToPlot,y=location,labels=plotLabels,pos = 4) 
+
+title(sub=sourceText, adj=0,cex.sub=0.7,
+      line = 3) #push the text down
+```
+
+```{r}
+titleText2='Are all locations getting a fair share of public schools in WA?'
+
+
+par(mgp=c(1,0.5,0)) 
+location=barplot(ToPlot,
+         col = paletteHereNew,
+         border=NA,
+         main=titleText2,
+         xlim=c(0,50), 
+         cex.names = 0.6,
+         cex.lab=0.6,
+         xlab = '(in %)',
+         horiz = T
+         ) 
+
+text(x=ToPlot,y=location,labels=plotLabels,pos = 4) 
+title(sub=sourceText, adj=0,cex.sub=0.7,
+      line = 3) 
+
+# reference line
+abline(v=25,#position vertical
+       lty=3,#type
+       lwd=3)#width
+```
+
+```{r}
+par(mgp=c(1,0.5,0)) 
+location=barplot(ToPlot,
+         col = paletteHereNew,
+         border=NA,
+         main=titleText2,
+         xlim=c(0,50), 
+         xlab = '(in %)',
+         cex.names=0.6,
+         cex.lab=0.6,
+         las=2,
+         horiz = T,
+         xaxt="n") # no x-axis, so I customize it below...
+
+text(x=ToPlot,y=location,labels=plotLabels,pos = 4,cex = 0.7) 
+title(sub=sourceText, adj=0,cex.sub=0.7,line = 3) 
+
+#reference line
+abline(v=25,lty=3,lwd=3)
+
+
+# customizing tick values
+newXvalues<-c(0,10,25,40,50) # you just want to show this on the axis
+axis(side=1, 
+     at=newXvalues, 
+     labels = newXvalues,
+     cex.axis=0.8)
+```
+
+```{r}
+tableFreq=as.data.frame(ToPlot)
+names(tableFreq)=c("locale","pct")
+#you have:
+tableFreq
+```
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+base= ggplot(data = tableFreq, 
+             aes(x = locale,
+                 y = pct)) 
+```
+
+```{r}
+plot1 = base + geom_bar(fill ="gray",
+                        stat = 'identity') # y is just what it is!
+plot1
+```
+
+```{r}
+plot2 = plot1 + labs(title=titleText2,
+                     x =NULL, 
+                     y = NULL,
+                     caption = sourceText)
+plot2
+```
+
+```{r}
+plot3 = plot2 + geom_hline(yintercept = 25, #where
+                           linetype="dashed", 
+                           size=1.5, #thickness
+                           alpha=0.5) #transparency
+plot3
+```
+
+```{r}
+library(scales)
+
+# customize Y axis
+plot4 = plot3 + scale_y_continuous(breaks=c(0,10, 25,40,50),
+                                 limits = c(0, 50), # expand = c(0, 0),
+                                 labels=scales::unit_format(suffix = '%')) 
+plot4
+```
+
+```{r}
+plot5 = plot4 + theme(panel.background = element_rect(fill = "white",
+                                                    colour = "grey50"),
+                    plot.caption = element_text(hjust = 0), # default was 1
+                    plot.title = element_text(hjust = 0.5))
+plot5
+```
+
+```{r}
+plot6 = plot5 + geom_text(aes(y = pct ,
+                            label = paste0(round(pct,2), '%')),
+                        vjust=1, # if flipping 'hjust'
+                        size = 3)
+# wanna flip the plot?
+plot6 #+ coord_flip()
+```
+
+```{r}
+###
+ToPlotOrd=sort(ToPlot)
+plotLabels=paste0(round(ToPlotOrd,2),'%') # labels for the slices
+###
+
+par(mgp=c(1,0.5,0)) # distance label, tickText,tick
+location=barplot(ToPlotOrd,
+         col = paletteHereNew,
+         border=NA,
+         main=titleText2,
+         xlim=c(0,50), 
+         xlab = '(in %)',
+         horiz = T,
+         cex.names = 0.7,
+         cex.lab=0.6,
+         xaxt="n") # no x-axis, so I customize it below...
+
+text(x=ToPlotOrd,y=location,labels=plotLabels,pos = 4,cex = 0.7) 
+title(sub=sourceText, adj=0,cex.sub=0.7,line = 3) 
+
+# reference line
+abline(v=25,lty=3,lwd=3)
+
+# customizong tick values
+xtick<-c(0,10,25,40,50)
+axis(side=1, at=xtick, labels = xtick,cex.axis=0.8)
+```
+
+```{r}
+tableFreqO=tableFreq[order(-tableFreq$pct),]
+tableFreqO
+```
+
+```{r}
+base= ggplot(data = tableFreq, 
+             aes(x = reorder(locale, -pct),
+                 y = pct)) 
+                 
+                 plot1 = base + geom_bar(fill ="pink",
+                        stat = 'identity') # y is just what it is!
+```
+
+```{r}
+plot2 = plot1 + labs(title=titleText,
+                     x =NULL, 
+                     y = NULL,
+                     caption = sourceText)
+```
+
+```{r}
+plot3 = plot2 + geom_hline(yintercept = 25, #where
+                           linetype="dashed", 
+                           size=1.5, #thickness
+                           alpha=0.5) #transparency
+```
+
+```{r}
+library(scales)
+
+# customize Y axis
+plot4 = plot3 + scale_y_continuous(breaks=c(0,10, 25,40,50),
+                                 limits = c(0, 50),
+                                 labels=scales::unit_format(suffix = '%')) 
+plot5 = plot4 + theme(panel.background = element_rect(fill = "white",
+                                                    colour = "grey 50"),
+                    plot.caption = element_text(hjust = 0), # default was 1
+                    plot.title = element_text(hjust = 0.5))
+
+plot6 = plot5 + geom_text(aes(y = pct ,
+                            label = paste0(round(pct,2), '%')),
+                        vjust=1, # if flipping 'hjust'
+                        size = 3)
+
+plot6
+
+plot6 + coord_flip()
+
+base = ggplot(tableFreq, aes(x=locale,pct)) 
+lolliplot1=base + geom_segment(aes(y = 0, 
+                                   x = locale, 
+                                   yend = pct, 
+                                   xend = locale), color = "grey50") 
+```
+
+```{r}
+lolliplot1 + geom_point()
+
+tableFreq[order(tableFreq$pct),]
+
+tableFreqO=tableFreq[order(tableFreq$pct),]
+
+
+base = ggplot(tableFreqO, aes(locale,pct)) 
+lolliplot1=base + geom_segment(aes(y = 0, 
+                                   x = locale, 
+                                   yend = pct, 
+                                   xend = locale), color = "gray") 
+lolliplot2 = lolliplot1 + geom_point()
+lolliplot2 + scale_x_discrete(limits=tableFreqO$locale)
+```
+
+```{r}
+tableFreqO$gap=tableFreqO$pct-25
+```
+
+```{r}
+base = ggplot(tableFreqO, aes(locale,gap)) 
+
+lolliplot1=base + geom_segment(aes(y = 0, 
+                                   x = locale, 
+                                   yend = gap, 
+                                   xend = locale), color = "gray") 
+lolliplot2 = lolliplot1 + geom_point()
+lolliplot2 + scale_x_discrete(limits=tableFreqO$locale) # key element
+```
+
+```{r}
+tableFreqO$PositiveGap=ifelse(tableFreqO$gap>0,T,F)
+```
+
+```{r}
+base = ggplot(tableFreqO, aes(locale,gap,
+                              color=PositiveGap)) #change
+lolliplot1=base + geom_segment(aes(y = 0, 
+                                   x = locale, 
+                                   yend = gap, 
+                                   xend = locale), color = "gray") 
+lolliplot2 = lolliplot1 + geom_point()
+lolliplot2 + scale_x_discrete(limits=tableFreqO$locale) # key element
+```
+
+```{r}
+tableFreqO$PositiveGap=ifelse(tableFreqO$gap>0,T,F)
+
+base = ggplot(tableFreqO, aes(locale,gap,color=PositiveGap,
+                              label = round(gap,3))) #  change
+lolliplot1=base + geom_segment(aes(y = 0, 
+                                   x = locale, 
+                                   yend = gap, 
+                                   xend = locale), color = "gray") 
+lolliplot2=lolliplot1 + geom_point() 
+lolliplot3=lolliplot2 + labs(title=titleText2,
+                     x =NULL, 
+                     y = NULL,
+                     caption = sourceText)
+lolliplot4= lolliplot3 + scale_x_discrete(limits=tableFreqO$locale)
+
+```
+
+
+```{r}
+lolliplot4 + geom_text(nudge_x=0.3) 
+lolliplot4 + geom_text(nudge_x=0.3,show.legend = FALSE) 
+```
+
+```{r}
+table(eduwa$High.Grade,exclude = 'nothing')
+```
+
+```{r}
+frqTabO=as.data.frame(prop.table(table(eduwa$High.Grade)))
+names(frqTabO)=c('grade','pct')
+frqTabO
+```
+
+```{r}
+base = ggplot(frqTabO,aes(x=grade,y=pct))
+base + geom_bar(stat = 'identity') 
+```
+
+```{r}
+box1 = ggplot(eduwa, aes(y=as.numeric(High.Grade))) 
+box1 = box1 + geom_boxplot() + coord_flip() # to show it horizontally
+
+box1
+```
+
+```{r}
+ordLabels= levels(eduwa$High.Grade)
+
+box2 = box1 + scale_y_continuous(labels=ordLabels,breaks=1:15)
+box2
+```
+
+```{r}
+box3=box2 + labs(title='What does the highest grade a public shcool offer in WA?',
+                     x =NULL, 
+                     y = NULL,
+                     caption = sourceText)
+box3
+```
+
+```{r}
+box4=box3 + theme(panel.background = element_rect(fill = "white",
+                                                    colour = "grey50"),
+                    plot.caption = element_text(hjust = 0),
+                    plot.title = element_text(hjust = 0.5))
+box4
+```
+
+
+```{r}
+pos_q1=     ggplot_build(box2)$data[[1]]$lower
+pos_median= ggplot_build(box2)$data[[1]]$middle
+pos_q3=     ggplot_build(box2)$data[[1]]$upper
+
+# using
+levels(eduwa$High.Grade)[c(pos_q1,pos_median,pos_q3)]
+```
+
+```{r}
+library(summarytools)
+freq(eduwa$High.Grade,style = 'rmarkdown')
+```
+
+```{r}
+length(unique(eduwa$Free.Lunch))
+```
+
+
+```{r}
+summary(eduwa$Free.Lunch)
+```
+
+```{r}
+eduwa3=eduwa[complete.cases(eduwa$Free.Lunch),]
+dataHist=hist(eduwa3$Free.Lunch) #saving info in dataHist
+```
+
+```{r}
+base= ggplot(eduwa3,aes(x = Free.Lunch))  
+h1= base + geom_histogram()
+h1 
+```
+
+```{r}
+dataHist
+ggplot_build(h1)$data[[1]]
+```
+
+```{r}
+base= ggplot(eduwa3,aes(x = Free.Lunch))  
+h1= base + geom_histogram(binwidth = 100,boundary=0) #changing width
+h1= h1 + stat_bin(binwidth = 100, aes(label=..count..), 
+                  geom = "text",boundary = 0,vjust=-0.5)
+h1
+```
+
+```{r}
+h2 = h1 + scale_y_continuous(breaks=c(0,200,400,600,800,1000),
+                                 limits = c(0, 1000),
+                                 labels=scales::unit_format(suffix = ''))
+h2
+```
+
+```{r}
+h3 = h2 + scale_x_continuous(breaks=c(0,200,400,600,800,1000,1200,1400,1600,1800),
+                                 limits = c(0, 1800),
+                                 labels=scales::unit_format(suffix = ''))
+h3
+```
+
+
+```{r}
+hist(eduwa3$Free.Lunch,labels = T,xlab="Free Lunch")
+```
+
+```{r}
+hist(eduwa3$Free.Lunch,labels = T,xlab="Free Lunch", xaxt="n",
+     main = 'Amount of students in public schools that have free lunch',
+     sub = sourceText,
+     ylim=c(0,1000)) 
+axis(side=1, at=dataHist$breaks)
+```
+
+
+```{r}
+eduwa3$freeLunchOrd=cut(eduwa3$Free.Lunch,
+                       breaks = dataHist$breaks,
+                       include.lowest = T,
+                       ordered_result = T)
+```
+
+```{r}
+freq(eduwa3$freeLunchOrd,style = 'rmarkdown',report.nas = F)
+```
+
+```{r}
+tapply(eduwa$Student.Teacher.Ratio, eduwa$County, mean)
+```
+
+```{r}
+tapply(eduwa$Student.Teacher.Ratio, eduwa$County, mean,na.rm=T)
+```
+
+```{r}
+TableMean=as.data.frame(meanValues)
+
+```
+
+```{r}
+hratio= ggplot(TableMean,aes(x = TableMean$meanValues)) +
+  geom_histogram(aes(fill=TableMean$meanValues), binwidth = 2,boundary=0)+
+  stat_bin(binwidth = 2, aes(label=..count..),
+           geom = "text", boundary = 0, vjust =-0.5)+
+  labs(title='Mean value of student teacher ratio',x=NULL, y=NULL, caption = sourceText) +
+  theme(plot.title = element_text(hjust=0.5))
+hratio
+```
+
+```{r}
+hdensity = ggplot(TableMean, )+
+  stat_density(aes(x = meanValues), adjust =1, geom = "line", kernel = "gaussian")+
+  geom_vline(xintercept = mean(meanValues),lty="dashed",lwd=1.5,col='blue')+
+  geom_vline(xintercept = median(meanValues),lty="dashed",lwd=1.5,col='red')+
+  labs(title = "Density plot of student teacher ratio",x=NULL, y=NULL, caption = sourceText)+
+  theme(plot.title = element_text(hjust=0.5))
+hdensity
+
+```
+
